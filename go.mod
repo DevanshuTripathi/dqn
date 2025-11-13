@@ -1,4 +1,4 @@
-module github.com/iampaapa/dqn
+module github.com/DevanshuTripathi/dqn
 
 go 1.22.2
 
