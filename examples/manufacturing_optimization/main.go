@@ -150,7 +150,7 @@ func runExperiment(agent interface{}, env *ManufacturingEnvironment, episodes in
 
 			switch a := agent.(type) {
 			case *dqn.DQN:
-				a.Train(dqn.Normalize(state), dqn.Normalize(nextState), action, int(reward*100), stepDone)
+				a.Train(dqn.Normalize(state), dqn.Normalize(nextState), action, reward*100, stepDone)
 			case *QLearning:
 				a.Update(state, action, reward, nextState)
 			}

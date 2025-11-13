@@ -26,12 +26,12 @@ func NewDQN(inputSize, hiddenSize, outputSize, bufferSize int, gamma, epsilon, l
 }
 
 // Train trains the Q-network.
-func (d *DQN) Train(state, nextState []float64, action, reward int, done bool) {
+func (d *DQN) Train(state, nextState []float64, action int, reward float64, done bool) {
 	nextQValues := d.qNetwork.Predict(nextState)
 	maxNextQValue := Max(nextQValues)
 	target := make([]float64, len(nextQValues))
 	copy(target, nextQValues)
-	target[action] = float64(reward)
+	target[action] = reward
 	if !done {
 		target[action] += d.gamma * maxNextQValue
 	}
