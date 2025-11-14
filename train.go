@@ -98,6 +98,10 @@ func (d *DQN) EpsilonGreedyPolicy(state []float64, numActions int) int {
 	return Argmax(qValues)
 }
 
+func (d *DQN) QNetworkPredict(state []float64) []float64 {
+	return d.qNetwork.Predict(state)
+}
+
 // Helper functions
 
 func (d *DQN) CopyToTarget() {
