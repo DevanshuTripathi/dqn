@@ -155,6 +155,42 @@ func applyDerivative(v *mat.VecDense, activation Activation) *mat.VecDense {
 	return result
 }
 
+// GetWeights returns a deep copy of all network weights and biases.
+func (q *QNetwork) GetWeights() map[string]interface{} {
+	return map[string]interface{}{
+		"w1": q.copyDense(q.w1),
+		"b1": q.copyVec(q.b1),
+		"w2": q.copyDense(q.w2),
+		"b2": q.copyVec(q.b2),
+	}
+}
+
+// SetWeights loads weights & biases from another network (deep copy).
+func (q *QNetwork) SetWeights(weights map[string]interface{}) {
+	q.w1 = q.copyDense(weights["w1"].(*mat.Dense))
+	q.b1 = q.copyVec(weights["b1"].(*mat.VecDense))
+	q.w2 = q.copyDense(weights["w2"].(*mat.Dense))
+	q.b2 = q.copyVec(weights["b2"].(*mat.VecDense))
+}
+
+// copyDense deep copies a Dense matrix.
+func (q *QNetwork) copyDense(src *mat.Dense) *mat.Dense {
+	r, c := src.Dims()
+	data := make([]float64, r*c)
+	copy(data, src.RawMatrix().Data)
+	return mat.NewDense(r, c, data)
+}
+
+// copyVec deep copies a VecDense vector.
+func (q *QNetwork) copyVec(src *mat.VecDense) *mat.VecDense {
+	n := src.Len()
+	data := make([]float64, n)
+	for i := 0; i < n; i++ {
+		data[i] = src.AtVec(i)
+	}
+	return mat.NewVecDense(n, data)
+}
+
 // Common activation functions
 
 func ReLU(x float64) float64 {
