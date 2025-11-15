@@ -17,6 +17,16 @@ type DQN struct {
 	batchSize     int
 }
 
+// GetWeights exposes the qNetwork weights safely.
+func (d *DQN) GetWeights() map[string]interface{} {
+	return d.qNetwork.GetWeights()
+}
+
+// SetWeights updates the qNetwork weights safely.
+func (d *DQN) SetWeights(weights map[string]interface{}) {
+	d.qNetwork.SetWeights(weights)
+}
+
 // NewDQN initializes a new DQN instance.
 func NewDQN(inputSize, hiddenSize, outputSize, bufferSize int, gamma, epsilon, learningRate float64, activation Activation) *DQN {
 	agent := &DQN{
